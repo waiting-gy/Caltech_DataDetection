@@ -15,6 +15,8 @@ import torch.utils.data as data
 import numpy as np
 import argparse
 
+import matplotlib.pyplot as plt
+
 
 def str2bool(v):
     return v.lower() in ("yes", "true", "t", "1")
@@ -146,6 +148,8 @@ def train():
                                   num_workers=args.num_workers,
                                   shuffle=True, collate_fn=detection_collate,
                                   pin_memory=True)
+    loss_list = []
+    #accur_list = []
     # create batch iterator
     batch_iterator = iter(data_loader)
     for iteration in range(args.start_iter, cfg['max_iter']):
@@ -188,6 +192,7 @@ def train():
         #conf_loss += loss_c.data[0]
         loc_loss += loss_l.item()
         conf_loss += loss_c.item()
+        loss_list.append(loss.item())
 
         if iteration % 10 == 0:
             print('timer: %.4f sec.' % (t1 - t0))
@@ -204,6 +209,13 @@ def train():
             print('Saving state, iter:', iteration)
             torch.save(ssd_net.state_dict(), 'weights/ssd300_COCO_' +
                        repr(iteration) + '.pth')
+
+    plt.plot(loss_list,label='loss')
+    #plt.plot(accur_list,label='accuracy')
+    plt.legend()
+    plt.title('training loss')
+    plt.show()
+
     torch.save(ssd_net.state_dict(),
                args.save_folder + '' + args.dataset + '.pth')
 
