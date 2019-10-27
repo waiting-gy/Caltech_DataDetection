@@ -370,8 +370,10 @@ def test_net(save_folder, net, cuda, dataset, transform, top_k,
     # all detections are collected into:
     #    all_boxes[cls][image] = N x 5 array of detections in
     #    (x1, y1, x2, y2, score)
+#    all_boxes = [[[] for _ in range(num_images)]
+#                 for _ in range(len(labelmap)+1)]
     all_boxes = [[[] for _ in range(num_images)]
-                 for _ in range(len(labelmap)+1)]
+                 for _ in range(2)]
 
     # timers
     _t = {'im_detect': Timer(), 'misc': Timer()}

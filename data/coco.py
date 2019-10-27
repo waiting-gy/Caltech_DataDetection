@@ -8,7 +8,8 @@ import torchvision.transforms as transforms
 import cv2
 import numpy as np
 
-COCO_ROOT = osp.join(HOME, 'data/coco/')
+#COCO_ROOT = osp.join(HOME, 'data/coco/')
+COCO_ROOT = "/mnt/Younggao/coco/"
 IMAGES = 'images'
 ANNOTATIONS = 'annotations'
 COCO_API = 'PythonAPI'
@@ -33,7 +34,7 @@ COCO_CLASSES = ('person', 'bicycle', 'car', 'motorcycle', 'airplane', 'bus',
 def get_label_map(label_file):
     label_map = {}
     #labels = open(label_file, 'r')
-    labels = open("/notebooks/Caltech_DataDetection/data/coco_labels.txt", 'r')
+    labels = open("/mnt/Younggao/Caltech_DataDetection/data/coco_labels.txt", 'r')
     for line in labels:
         ids = line.split(',')
         label_map[int(ids[0])] = int(ids[1])
