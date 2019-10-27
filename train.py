@@ -158,7 +158,7 @@ def train():
                             'append', epoch_size)
             # reset epoch loss counters
             loc_loss = 0
-            conf_loss = 0
+            conf_lopllss = 0
             epoch += 1
 
         if iteration in cfg['lr_steps']:
@@ -174,10 +174,10 @@ def train():
 
         if args.cuda:
             images = Variable(images.cuda())
-            targets = [Variable(ann.cuda(), volatile=True) for ann in targets]
+            targets = [Variable(ann.cuda()) for ann in targets]
         else:
             images = Variable(images)
-            targets = [Variable(ann, volatile=True) for ann in targets]
+            targets = [Variable(ann) for ann in targets]
         # forward
         t0 = time.time()
         out = net(images)
@@ -232,7 +232,7 @@ def adjust_learning_rate(optimizer, gamma, step):
 
 
 def xavier(param):
-    init.xavier_uniform(param)
+    init.xavier_uniform_(param)
 
 
 def weights_init(m):
